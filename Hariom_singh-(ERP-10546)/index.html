@@ -1,0 +1,589 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>HeartMatch — Romantic</title>
+<style>
+  :root{
+    --bg:#fff5f8;
+    --pink:#ff6b8a;
+    --deep:#ff456e;
+    --muted:#ffdde6;
+    --card:#fff;
+    --glass: rgba(255,255,255,0.55);
+    --shadow: 0 8px 30px rgba(255,90,120,0.12);
+    --radius:16px;
+    --accent: #ff8aa0;
+    font-family: "Segoe UI", Roboto, system-ui, -apple-system, "Helvetica Neue", Arial;
+  }
+  *{box-sizing:border-box}
+  html,body{height:100%}
+  body{
+    margin:0;
+    min-height:100%;
+    background: radial-gradient(circle at 10% 20%, #fff0f4 0%, var(--bg) 40%),
+                radial-gradient(circle at 90% 80%, #fff8f9 0%, var(--bg) 40%);
+    color:#3b2b2b;
+    -webkit-font-smoothing:antialiased;
+    overflow-y:auto;
+  }
+
+  /* floating hearts background */
+  .hearts{
+    position:fixed; inset:0; pointer-events:none; z-index:0; overflow:hidden;
+  }
+  .heart{
+    position:absolute; width:36px; height:36px; transform:translate3d(0,0,0);
+    background:linear-gradient(135deg,var(--pink),var(--deep));
+    clip-path: path("M24 4c-4.9 0-9 3.6-10 8.5C11 7.6 6.9 4 2 4 2 4-1 23 12 33c13-10 10-29 10-29z");
+    border-radius:12px;
+    opacity:.14; filter:blur(.2px);
+    animation: float linear infinite;
+  }
+  @keyframes float{
+    from{transform:translateY(120vh) scale(.6) rotate(0deg)}
+    to{transform:translateY(-20vh) scale(1.2) rotate(360deg)}
+  }
+
+  header{
+    position:relative; z-index:5;
+    background: linear-gradient(90deg,var(--pink),var(--deep));
+    color:white; padding:28px 20px; text-align:center; border-bottom-left-radius:22px;
+    border-bottom-right-radius:22px; box-shadow:0 8px 30px rgba(255,90,120,0.15);
+  }
+  header h1{margin:0;font-size:28px; letter-spacing:0.6px}
+  header p{margin:.4rem 0 0; opacity:.95; font-size:14px}
+
+  main{max-width:980px;margin:24px auto; padding:0 18px; position:relative; z-index:3}
+  .grid{
+    display:grid; grid-template-columns: 360px 1fr; gap:20px; align-items:start;
+  }
+
+  /* card */
+  .card{
+    background: linear-gradient(180deg, rgba(255,255,255,0.9), var(--glass));
+    border-radius:var(--radius);
+    padding:18px;
+    box-shadow:var(--shadow);
+    border:1px solid rgba(255,110,140,0.06);
+    backdrop-filter: blur(6px);
+  }
+
+  /* left column - form */
+  .profile-form h2{margin:0 0 6px}
+  label{display:block; margin:10px 0 6px; font-weight:600; font-size:13px}
+  input[type="text"], input[type="number"], input[type="email"], select, textarea{
+    width:100%; padding:10px 12px; border-radius:10px; border:1px solid #ffd6df; background:#fff; outline:none;
+    font-size:14px;
+  }
+  textarea{min-height:72px; resize:vertical}
+  .small{font-size:12px; color:#7b4652; margin-top:6px}
+
+  .interests{display:flex; flex-wrap:wrap; gap:8px; margin-top:6px}
+  .chip{
+    padding:8px 10px; border-radius:999px; background:linear-gradient(90deg,#fff,#ffeef4);
+    border:1px solid rgba(255,120,150,0.12); cursor:pointer; font-weight:600; font-size:13px;
+  }
+  .chip.selected{background:linear-gradient(90deg,var(--pink),var(--deep)); color:white; transform:translateY(-4px); box-shadow:0 6px 22px rgba(255,80,120,0.14)}
+
+  .btn{
+    display:inline-block; margin-top:12px; padding:12px 16px; border-radius:12px;
+    background:linear-gradient(90deg,var(--deep),var(--pink)); color:white; border:none; cursor:pointer; font-weight:700;
+    box-shadow: 0 10px 30px rgba(255,90,120,0.14); transition:transform .18s ease;
+  }
+  .btn:active{transform:translateY(2px)}
+  .muted{color:#7a5a62; font-size:14px}
+
+  /* right column - profile & matches */
+  .profile-display{display:flex; gap:14px; align-items:center}
+  .avatar{
+    width:88px; height:88px; border-radius:999px; display:flex; align-items:center; justify-content:center;
+    font-weight:800; font-size:24px; color:white; box-shadow: 0 8px 25px rgba(255,90,120,0.12);
+    background: linear-gradient(135deg, #ffd0da, #ff91a8);
+  }
+  .profile-meta h3{margin:0;font-size:20px}
+  .profile-meta p{margin:6px 0 0; font-size:13px; color:#7d4b54}
+
+  .matches-grid{margin-top:14px; display:grid; grid-template-columns: repeat(auto-fit,minmax(210px,1fr)); gap:14px}
+  .match-card{
+    padding:14px; border-radius:14px; background: linear-gradient(180deg,#ffffff,#fff6f8);
+    text-align:center; border:1px solid rgba(255,110,140,0.06);
+    transform-origin:center; transition:transform .35s cubic-bezier(.2,.9,.25,1), box-shadow .25s;
+  }
+  .match-card:hover{transform:translateY(-8px) scale(1.02); box-shadow:0 20px 40px rgba(255,80,120,0.12)}
+  .match-avatar{width:72px;height:72px;border-radius:999px;margin:0 auto 10px;display:flex;align-items:center;justify-content:center;font-weight:700;color:white;background:linear-gradient(135deg,#ff7b9a,#ff4b6f)}
+  .score{font-weight:800; font-size:18px; margin-top:8px}
+  .tag{display:inline-block; margin-top:8px; padding:6px 10px; border-radius:999px; font-size:12px; background:#fff0f2; color:#b23d57}
+
+  /* small animations */
+  .fade-in{animation:fadeIn .6s ease both}
+  @keyframes fadeIn{from{opacity:0; transform:translateY(6px)} to{opacity:1; transform:none}}
+
+  /* confetti canvas overlay */
+  #confetti{position:fixed; inset:0; pointer-events:none; z-index:60}
+
+  /* responsive */
+  @media (max-width:920px){
+    .grid{grid-template-columns:1fr; padding-bottom:20px}
+    .avatar{width:72px;height:72px}
+  }
+
+  footer{margin:34px auto; text-align:center; color:#8a5b63; font-size:13px; opacity:.9}
+</style>
+</head>
+<body>
+
+<div class="hearts" id="hearts"></div>
+
+<header>
+  <h1>HeartMatch</h1>
+  <p>Romantic, soft, animated — find a heartfelt match 💖</p>
+</header>
+
+<main>
+  <div class="grid">
+    <section class="card profile-form fade-in">
+      <h2>Create Your Profile</h2>
+      <div class="small muted">Fill basic details & a tiny personality quiz — matching gets smarter.</div>
+
+      <label for="name">Name</label>
+      <input id="name" type="text" placeholder="Your name (e.g., Priya)" />
+
+      <label for="age">Age</label>
+      <input id="age" type="number" min="18" placeholder="18+" />
+
+      <label for="email">Email</label>
+      <input id="email" type="email" placeholder="you@example.com"/>
+
+      <label for="location">City</label>
+      <input id="location" type="text" placeholder="e.g., Mumbai" />
+
+      <label>Interests (choose some)</label>
+      <div class="interests" id="interestsList">
+        <!-- chips injected by JS -->
+      </div>
+
+      <label>Personality — pick where you see yourself</label>
+      <div style="display:flex; gap:10px;">
+        <div style="flex:1">
+          <input id="personality" type="range" min="0" max="100" value="50" />
+          <div class="small muted" id="personalityLabel">Balanced (50)</div>
+        </div>
+        <div style="width:120px;">
+          <button class="btn" id="registerBtn">Register & Find Matches</button>
+        </div>
+      </div>
+
+      <label class="small">About (optional)</label>
+      <textarea id="bio" placeholder="A line about you..."></textarea>
+
+    </section>
+
+    <section class="card profile-display fade-in" id="displayCard">
+      <div style="display:flex; justify-content:space-between; align-items:center;">
+        <div style="display:flex; gap:14px; align-items:center">
+          <div class="avatar" id="meAvatar">💌</div>
+          <div class="profile-meta">
+            <h3 id="meName">Hello, romantic!</h3>
+            <p id="meSub">Create your profile to start matching</p>
+          </div>
+        </div>
+        <div style="text-align:right">
+          <div class="muted">Matches found</div>
+          <div id="matchCount" style="font-weight:800; font-size:22px">0</div>
+        </div>
+      </div>
+
+      <div style="margin-top:14px">
+        <button class="btn" id="refreshBtn" style="background:linear-gradient(90deg,#ff8aa0,#ff5b84)">Show Matches</button>
+      </div>
+
+      <div class="matches-grid" id="matchesGrid" style="margin-top:18px"></div>
+    </section>
+  </div>
+</main>
+
+<canvas id="confetti"></canvas>
+<footer>Made with ♥ by HeartMatch · All animations local to page</footer>
+
+<script>
+/* -------------------------
+   Utilities & initial data
+   ------------------------- */
+const INTERESTS = ["Coffee & Chats","Books","Movies","Travel","Cooking","Dancing","Fitness","Art","Music","Pets","Nature","Gaming","Photography"];
+const seededUsers = [
+  {name:"Arjun", age:26, email:"arjun@mock.com", city:"Mumbai", interests:["Travel","Music","Fitness"], personality:72, bio:"Traveler & foodie"},
+  {name:"Neha", age:24, email:"neha@mock.com", city:"Pune", interests:["Books","Coffee & Chats","Art"], personality:45, bio:"Bookworm who loves chai"},
+  {name:"Riya", age:27, email:"riya@mock.com", city:"Mumbai", interests:["Movies","Cooking","Music"], personality:58, bio:"Home-cook and cinephile"},
+  {name:"Karan", age:29, email:"karan@mock.com", city:"Delhi", interests:["Gaming","Music","Photography"], personality:34, bio:"Gamer with a camera"},
+  {name:"Sana", age:25, email:"sana@mock.com", city:"Mumbai", interests:["Dance","Fitness","Travel"], personality:80, bio:"Dance first, ask questions later"}
+];
+
+let users = JSON.parse(localStorage.getItem('hm_users')||'null');
+if(!users){ users = seededUsers.slice(); localStorage.setItem('hm_users', JSON.stringify(users)); }
+
+let current = JSON.parse(localStorage.getItem('hm_me')||'null');
+
+/* -------------------------
+   Floating hearts background
+   ------------------------- */
+const heartsEl = document.getElementById('hearts');
+function createHearts(count=12){
+  for(let i=0;i<count;i++){
+    const h = document.createElement('div');
+    h.className='heart';
+    const size = 18 + Math.round(Math.random()*40);
+    h.style.width = h.style.height = size+'px';
+    h.style.left = (Math.random()*100)+'%';
+    h.style.bottom = (Math.random()*-60)+'vh';
+    h.style.opacity = 0.06 + Math.random()*0.22;
+    h.style.filter = `blur(${Math.random()*2}px)`;
+    const dur = 18 + Math.random()*20;
+    h.style.animationDuration = dur+'s';
+    h.style.animationDelay = (-Math.random()*20)+'s';
+    heartsEl.appendChild(h);
+  }
+}
+createHearts(14);
+
+/* -------------------------
+   build interest chips
+   ------------------------- */
+const interestsList = document.getElementById('interestsList');
+const selectedInterests = new Set();
+INTERESTS.forEach(i=>{
+  const el = document.createElement('div');
+  el.className='chip';
+  el.innerText=i;
+  el.onclick = ()=> {
+    if(selectedInterests.has(i)){ selectedInterests.delete(i); el.classList.remove('selected'); }
+    else { selectedInterests.add(i); el.classList.add('selected'); }
+  };
+  interestsList.appendChild(el);
+});
+
+/* -------------------------
+   form interactions
+   ------------------------- */
+const nameInput = document.getElementById('name');
+const ageInput = document.getElementById('age');
+const emailInput = document.getElementById('email');
+const locationInput = document.getElementById('location');
+const bioInput = document.getElementById('bio');
+const personalityInput = document.getElementById('personality');
+const personalityLabel = document.getElementById('personalityLabel');
+
+personalityInput.oninput = ()=> {
+  personalityLabel.innerText = personalityLabelText(personalityInput.value);
+};
+function personalityLabelText(v){
+  v = Number(v);
+  if(v < 30) return `Calm (${v})`;
+  if(v < 60) return `Balanced (${v})`;
+  if(v < 80) return `Warm (${v})`;
+  return `Passionate (${v})`;
+}
+personalityLabel.innerText = personalityLabelText(personalityInput.value);
+
+/* -------------------------
+   avatar helper (initials)
+   ------------------------- */
+function initials(name='Valued'){
+  const parts = (name||'').trim().split(/\s+/);
+  if(parts.length===0) return 'U';
+  if(parts.length===1) return parts[0][0].toUpperCase();
+  return (parts[0][0]+parts[parts.length-1][0]).toUpperCase();
+}
+
+/* -------------------------
+   register user
+   ------------------------- */
+document.getElementById('registerBtn').addEventListener('click', ()=> {
+  const name = nameInput.value.trim();
+  const age = Number(ageInput.value);
+  const email = emailInput.value.trim();
+  const city = locationInput.value.trim() || 'Unknown';
+  const bio = bioInput.value.trim();
+  const personality = Number(personalityInput.value);
+  const interests = Array.from(selectedInterests);
+
+  if(!name || !age || !email || age < 18){
+    alert('Please complete name, valid age (18+), and email.');
+    return;
+  }
+
+  const me = { name, age, email, city, bio, personality, interests };
+  users.push(me);
+  localStorage.setItem('hm_users', JSON.stringify(users));
+  localStorage.setItem('hm_me', JSON.stringify(me));
+  current = me;
+  updateProfileCard();
+  computeAndShowMatches();
+});
+
+/* -------------------------
+   show matches button
+   ------------------------- */
+document.getElementById('refreshBtn').addEventListener('click', ()=> {
+  computeAndShowMatches();
+});
+
+/* -------------------------
+   load current profile display
+   ------------------------- */
+function updateProfileCard(){
+  const me = JSON.parse(localStorage.getItem('hm_me')||'null') || current;
+  const avatar = document.getElementById('meAvatar');
+  const meName = document.getElementById('meName');
+  const meSub = document.getElementById('meSub');
+
+  if(me){
+    avatar.innerText = initials(me.name);
+    meName.innerText = me.name;
+    meSub.innerText = `${me.age} • ${me.city} • ${me.interests?.slice(0,3).join(', ') || 'No interests yet'}`;
+  } else {
+    avatar.innerText = '💌';
+    meName.innerText = 'Hello, romantic!';
+    meSub.innerText = 'Create your profile to start matching';
+  }
+}
+updateProfileCard();
+
+/* -------------------------
+   Matching logic (realistic)
+   - interest overlap (weight 50%)
+   - personality closeness (weight 25%)
+   - age proximity (weight 15%)
+   - city match bonus (weight 10%)
+   ------------------------- */
+function compatibilityScore(me, other){
+  if(!other || !me) return 0;
+  // interest score
+  const mi = new Set(me.interests || []);
+  const oi = new Set(other.interests || []);
+  const common = [...mi].filter(x=>oi.has(x)).length;
+  const totalInterests = Math.max(mi.size + oi.size - common, 1);
+  const interestScore = common / totalInterests; // 0..1
+
+  // personality (0..100)
+  const persDiff = Math.abs((me.personality||50) - (other.personality||50));
+  const personalityScore = 1 - Math.min(persDiff,100)/100; // 1 if same, 0 if opposite
+
+  // age closeness
+  const ageDiff = Math.abs((me.age||25) - (other.age||25));
+  const ageScore = Math.max(0, 1 - Math.min(ageDiff, 20)/20); // linear down to 0 at diff 20
+
+  // city bonus
+  const cityBonus = (me.city && other.city && me.city.toLowerCase() === other.city.toLowerCase()) ? 1 : 0;
+
+  // weighted sum
+  const score = (interestScore * 0.5) + (personalityScore * 0.25) + (ageScore * 0.15) + (cityBonus * 0.10);
+  return Math.round(score * 100);
+}
+
+/* -------------------------
+   compute matches & render
+   ------------------------- */
+function computeAndShowMatches(){
+  const me = JSON.parse(localStorage.getItem('hm_me')||'null') || current;
+  if(!me){
+    alert('Please register first.');
+    return;
+  }
+
+  // compute scores against all except me
+  const scored = users
+    .filter(u => !(u.email === me.email && u.name === me.name))
+    .map(u => ({ user:u, score: compatibilityScore(me, u) }))
+    .sort((a,b)=>b.score - a.score);
+
+  renderMatches(scored);
+  document.getElementById('matchCount').innerText = scored.length;
+  // celebrate top match if very high
+  if(scored.length && scored[0].score >= 85){
+    burstHearts();
+    confettiBurst();
+  }
+}
+
+/* -------------------------
+   render match cards
+   ------------------------- */
+function renderMatches(list){
+  const grid = document.getElementById('matchesGrid');
+  grid.innerHTML = '';
+  if(list.length===0){
+    grid.innerHTML = '<div class="muted">No matches found yet — try expanding interests or adjusting personality!</div>';
+    return;
+  }
+  list.forEach(item=>{
+    const u = item.user;
+    const el = document.createElement('div');
+    el.className = 'match-card fade-in';
+    el.innerHTML = `
+      <div class="match-avatar">${initials(u.name)}</div>
+      <div style="font-weight:700">${u.name}, ${u.age}</div>
+      <div class="small muted">${u.city || ''}</div>
+      <div class="score">${item.score}%</div>
+      <div class="tag">${u.interests?.slice(0,3).join(' • ') || 'No interests'}</div>
+      <div style="margin-top:10px">
+        <button class="btn" style="padding:8px 12px; font-size:13px" onclick="openProfile('${u.email}')">View</button>
+      </div>
+    `;
+    grid.appendChild(el);
+  });
+}
+
+/* view profile (simple modal simulated) */
+function openProfile(email){
+  const u = users.find(x => x.email === email);
+  if(!u) return;
+  // small modal-like quick view
+  const card = document.createElement('div');
+  card.className = 'card';
+  card.style.position = 'fixed';
+  card.style.left = '50%';
+  card.style.top = '50%';
+  card.style.transform = 'translate(-50%,-50%) scale(.98)';
+  card.style.zIndex = 80;
+  card.style.maxWidth = '520px';
+  card.innerHTML = `
+    <div style="display:flex; gap:12px; align-items:center">
+      <div style="width:86px; height:86px; border-radius:999px; display:flex; align-items:center; justify-content:center; font-weight:800; font-size:26px; color:white; background:linear-gradient(135deg,#ff8aa0,#ff5b84)">${initials(u.name)}</div>
+      <div>
+        <div style="font-weight:800; font-size:20px">${u.name}, ${u.age}</div>
+        <div class="small muted">${u.city || ''}</div>
+        <div style="margin-top:8px">${u.bio || ''}</div>
+        <div style="margin-top:10px" class="small muted">Interests: ${u.interests?.join(', ') || '—'}</div>
+      </div>
+    </div>
+    <div style="text-align:right; margin-top:12px">
+      <button class="btn" onclick="closeModal()">Close</button>
+    </div>
+  `;
+  document.body.appendChild(card);
+  setTimeout(()=>{ card.style.transform = 'translate(-50%,-50%) scale(1)'; },10);
+  window.closeModal = ()=> { card.style.transform = 'translate(-50%,-50%) scale(.92)'; card.style.opacity = '0'; setTimeout(()=>card.remove(),220); }
+}
+
+/* -------------------------
+   confetti (simple)
+   ------------------------- */
+const confettiCanvas = document.getElementById('confetti');
+confettiCanvas.width = innerWidth;
+confettiCanvas.height = innerHeight;
+window.addEventListener('resize', ()=>{ confettiCanvas.width = innerWidth; confettiCanvas.height = innerHeight; });
+
+let confettiCtx = confettiCanvas.getContext('2d');
+let confettis = [];
+function confettiBurst(){
+  // generate pieces
+  const colors = ['#ff6b8a','#ffd1da','#ff91a8','#ff4b6f','#ffd6e0'];
+  for(let i=0;i<120;i++){
+    confettis.push({
+      x: Math.random()*confettiCanvas.width,
+      y: Math.random()*-80,
+      vx: (Math.random()-0.5)*4,
+      vy: 2 + Math.random()*4,
+      r: 4 + Math.random()*6,
+      color: colors[Math.floor(Math.random()*colors.length)],
+      rot: Math.random()*360,
+      omega: (Math.random()-0.5)*0.2,
+      life: 120 + Math.random()*80
+    });
+  }
+  if(!confettiLoopRunning){
+    confettiLoopRunning = true;
+    requestAnimationFrame(confettiLoop);
+  }
+}
+let confettiLoopRunning = false;
+function confettiLoop(){
+  confettiCtx.clearRect(0,0,confettiCanvas.width, confettiCanvas.height);
+  for(let i=confettis.length-1;i>=0;i--){
+    const p = confettis[i];
+    p.x += p.vx; p.y += p.vy; p.vy += 0.05; p.rot += p.omega; p.life--;
+    confettiCtx.save();
+    confettiCtx.translate(p.x,p.y);
+    confettiCtx.rotate(p.rot);
+    confettiCtx.fillStyle = p.color;
+    confettiCtx.fillRect(-p.r/2, -p.r/2, p.r, p.r*1.8);
+    confettiCtx.restore();
+    if(p.life < 0 || p.y > confettiCanvas.height + 60) confettis.splice(i,1);
+  }
+  if(confettis.length>0) requestAnimationFrame(confettiLoop);
+  else confettiLoopRunning = false;
+}
+
+/* -------------------------
+   heart burst animation when great match
+   ------------------------- */
+function burstHearts(){
+  const container = document.createElement('div');
+  container.style.position='fixed';
+  container.style.left='50%'; container.style.top='40%';
+  container.style.transform='translate(-50%,-50%)';
+  container.style.pointerEvents='none';
+  container.style.zIndex=70;
+  document.body.appendChild(container);
+  const colors=['#ff6b8a','#ff4b6f','#ffd1da'];
+  for(let i=0;i<24;i++){
+    const h = document.createElement('div');
+    h.style.width='18px'; h.style.height='18px';
+    h.style.background='radial-gradient(circle at 30% 30%, #fff, #ff6b8a)';
+    h.style.clipPath='polygon(50% 0, 61% 13%, 75% 13%, 85% 25%, 85% 40%, 75% 50%, 50% 70%, 25% 50%, 15% 40%, 15% 25%, 25% 13%, 39% 13%)';
+    h.style.position='absolute';
+    h.style.left='0'; h.style.top='0';
+    h.style.opacity='0.95';
+    h.style.transform='translate(0,0) scale(.8)';
+    container.appendChild(h);
+    const ang = (Math.random()*Math.PI*2);
+    const dist = 60 + Math.random()*140;
+    const dx = Math.cos(ang)*dist;
+    const dy = Math.sin(ang)*dist;
+    h.animate([
+      { transform:'translate(0,0) scale(.6)', opacity:1 },
+      { transform:`translate(${dx}px, ${dy}px) scale(1.1) rotate(30deg)`, opacity:0.5 },
+      { transform:`translate(${dx*1.3}px, ${dy*1.3}px) scale(.2) rotate(60deg)`, opacity:0 }
+    ], { duration: 900 + Math.random()*500, easing:'cubic-bezier(.2,.8,.2,1)'});
+  }
+  setTimeout(()=>container.remove(),1500);
+}
+
+/* -------------------------
+   initial rendering if current exists
+   ------------------------- */
+(function seedUI(){
+  // if we have a current, populate form preview & compute matches
+  if(current){
+    nameInput.value = current.name || '';
+    ageInput.value = current.age || '';
+    emailInput.value = current.email || '';
+    locationInput.value = current.city || '';
+    bioInput.value = current.bio || '';
+    personalityInput.value = current.personality || 50;
+    personalityLabel.innerText = personalityLabelText(personalityInput.value);
+    // select interests visually
+    document.querySelectorAll('.chip').forEach(ch=>{
+      if(current.interests && current.interests.includes(ch.innerText)){
+        ch.classList.add('selected'); selectedInterests.add(ch.innerText);
+      }
+    });
+    updateProfileCard();
+    computeAndShowMatches();
+  } else {
+    // default demo - show general seeded matches
+    renderMatches(users.map(u=>({user:u, score:compatibilityScore({interests:[], personality:50, age:25, city:''}, u)})));
+    document.getElementById('matchCount').innerText = users.length;
+  }
+})();
+
+/* -------------------------
+   helper: open in new tab for demo (not used)
+   ------------------------- */
+function noop(){}
+
+</script>
+</body>
+</html>

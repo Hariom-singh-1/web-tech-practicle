@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CSS Selector Demo</title>
+<style>
+*{font-family:Arial,sans-serif;box-sizing:border-box;}
+#main-title{color:darkblue;text-align:center;background:lightgray;padding:10px;}
+.highlight{color:crimson;font-weight:bold;}
+h2,p{margin-left:20px;}
+div p{background:#e0f7fa;border-left:4px solid teal;padding:6px;}
+</style>
+</head>
+<body>
+<h1 id="main-title">CSS Selector Example</h1>
+<h2>1. Universal Selector (*)</h2>
+<p>The universal selector applies styles to <span class="highlight">all elements</span> on the page.</p>
+<h2>2. ID Selector (#id)</h2>
+<p>The ID selector styles a single element with a <span class="highlight">unique ID</span>.</p>
+<h2>3. Class Selector (.class)</h2>
+<p class="highlight">This paragraph uses the <b>highlight</b> class to make text red and bold.</p>
+<h2>4. Group Selector (h2, p)</h2>
+<p>Group selector allows multiple elements to share common styles.</p>
+<h2>5. Descendant Selector (div p)</h2>
+<div>
+<p>This paragraph is inside a div, so descendant selector (div p) applies here.</p>
+</div>
+</body>
+</html>

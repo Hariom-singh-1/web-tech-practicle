@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>DOM Manipulation Website</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f2f2f2;
+            padding: 20px;
+        }
+
+        .container {
+            width: 450px;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin: auto;
+            box-shadow: 0 0 10px rgba(0,0,0,0.2);
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+
+        #themeBtn, #updateBtn, #countBtn {
+            padding: 12px;
+            width: 100%;
+            margin-top: 10px;
+            border: none;
+            border-radius: 6px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        #themeBtn { background: #0077ff; color: white; }
+        #updateBtn { background: #00b35a; color: white; }
+        #countBtn { background: #ff9800; color: white; }
+
+        #box {
+            background: #fff6c4;
+            padding: 15px;
+            margin-top: 15px;
+            border-radius: 6px;
+            font-size: 18px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1 id="heading">Welcome to My Webpage</h1>
+
+    <p id="description">Click the buttons below to see DOM manipulation in action.</p>
+
+    <div id="box">This is a special box. It will change!</div>
+
+    <button id="themeBtn" onclick="changeTheme()">Change Theme</button>
+    <button id="updateBtn" onclick="updateContent()">Update Content</button>
+    <button id="countBtn" onclick="increaseCounter()">Increase Counter</button>
+
+</div>
+
+<script>
+let counter = 0;
+
+// Change Theme using getElementById()
+function changeTheme() {
+    document.body.style.background = "#d9e7ff";
+    document.getElementById("heading").style.color = "#0044aa";
+    document.getElementById("box").innerHTML = "<b>Theme changed using getElementById()!</b>";
+}
+
+// Update text using querySelector()
+function updateContent() {
+    document.querySelector("#description").innerHTML = 
+        "Content updated using querySelector() and innerHTML!";
+    
+    document.getElementById("box").innerHTML = 
+        "<i>innerHTML replaced old content with new styled text.</i>";
+}
+
+// Counter using innerHTML
+function increaseCounter() {
+    counter++;
+    document.getElementById("box").innerHTML =
+        "Counter: <b>" + counter + "</b> (updated with innerHTML)";
+}
+</script>
+
+</body>
+</html>

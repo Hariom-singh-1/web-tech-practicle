@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>Food Profile Card</title>
+<style>
+    body {
+        margin: 0;
+        font-family: Arial, sans-serif;
+        background-color: #f9f4f0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+    }
+    .card {
+        width: 280px;
+        background-color: #fff;
+        border-radius: 12px;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        overflow: hidden;
+        position: relative; 
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .card-content {
+        padding: 15px;
+    }
+    .food-type {
+        display: inline-block;
+        background-color: #ff7f50;
+        color: #fff;
+        padding: 4px 8px;
+        font-size: 12px;
+        border-radius: 4px;
+        margin-top: 10px;
+    }
+    h2 {
+        margin: 0;
+        font-size: 20px;
+        color: #e67e22;
+    }
+    p {
+        font-size: 14px;
+        color: #555;
+        line-height: 1.4;
+        margin-top: 8px;
+    }
+    #food-img {
+        width: 100%;
+        height: 180px;
+        object-fit: cover;
+    }
+    .rating {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        background-color: #f1c40f;
+        color: #fff;
+        padding: 5px 10px;
+        border-radius: 20px;
+        font-weight: bold;
+        font-size: 13px;
+    }
+    .card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+    }
+    .card:active {
+        transform: translateY(0);
+    }
+    .card a {
+        display: inline-block;
+        text-decoration: none;
+        color: #fff;
+        background-color: #e67e22;
+        padding: 8px 12px;
+        border-radius: 6px;
+        margin-top: 12px;
+        font-size: 14px;
+        transition: background-color 0.3s ease, transform 0.3s ease;
+    }
+    .card a:hover {
+        background-color: #d35400;
+        transform: scale(1.05);
+    }
+    .card a:focus {
+        outline: 2px solid #ff7f50;
+    }
+</style>
+</head>
+<body>
+<div class="card">
+    <div class="rating">4.5 ★</div>
+    <img id="food-img" src="https://images.unsplash.com/photo-1600891964599-f61ba0e24092?auto=format&fit=crop&w=800&q=80" alt="Tasty Burger">
+    <div class="card-content">
+        <h2>Tasty Burger</h2>
+        <p>Enjoy a juicy burger made with fresh ingredients, soft buns, and flavorful sauces. Perfect for lunch or dinner.</p>
+        <span class="food-type">Fast Food</span>
+        <br>
+        <a href="#">Order Now</a>
+    </div>
+</div>
+</body>
+</html>

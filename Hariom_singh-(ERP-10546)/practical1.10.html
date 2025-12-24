@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Responsive Layout using Div and Span</title>
+
+    <!-- CSS combined inside HTML -->
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            line-height: 1.5;
+        }
+
+        .header {
+            background-color: #2c3e50;
+            color: white;
+            padding: 15px;
+            text-align: center;
+        }
+
+        .logo {
+            font-weight: bold;
+            font-size: 1.5em;
+        }
+
+        .nav a {
+            color: white;
+            text-decoration: none;
+            margin: 0 8px;
+            display: inline-block;
+        }
+
+        .main {
+            display: flex;
+            flex-direction: column;
+            padding: 10px;
+        }
+
+        .content {
+            background: #ecf0f1;
+            padding: 15px;
+            margin-bottom: 10px;
+            border-radius: 8px;
+        }
+
+        .sidebar {
+            background: #bdc3c7;
+            padding: 15px;
+            border-radius: 8px;
+        }
+
+        .footer {
+            background: #2c3e50;
+            color: white;
+            text-align: center;
+            padding: 10px;
+            font-size: 0.9em;
+        }
+
+        /* Tablet view */
+        @media (min-width: 600px) {
+            .main {
+                flex-direction: row;
+                gap: 10px;
+            }
+
+            .content {
+                flex: 3;
+            }
+
+            .sidebar {
+                flex: 1;
+            }
+        }
+
+        /* Desktop view */
+        @media (min-width: 900px) {
+            .header,
+            .footer {
+                text-align: left;
+                padding: 20px 40px;
+            }
+
+            .nav {
+                float: right;
+            }
+
+            .main {
+                padding: 20px 40px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="header">
+        <span class="logo">My Website</span>
+        <span class="nav">
+            <a href="#">Home</a>
+            <a href="#">About</a>
+            <a href="#">Contact</a>
+        </span>
+    </div>
+
+    <div class="main">
+        <div class="content">
+            <h2>Welcome to My Page</h2>
+            <p>
+                This is a simple responsive webpage using only
+                <b>div</b> and <b>span</b> for layout.
+            </p>
+            <p>
+                Resize the window to see how it adjusts for smaller screens.
+            </p>
+        </div>
+
+        <div class="sidebar">
+            <h3>Sidebar</h3>
+            <p>Some useful links or info can go here.</p>
+        </div>
+    </div>
+
+    <div class="footer">
+        <span>© 2025 My Website</span>
+    </div>
+
+</body>
+</html>

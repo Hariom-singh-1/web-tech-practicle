@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>Food Menu Layout</title>
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Poppins", sans-serif;}
+    body {
+        background: #fff7e6; }
+    header {
+        background: #ff7043;
+        color: white;
+        padding: 22px;
+        text-align: center;
+        font-size: 2rem;
+        font-weight: 600;
+        letter-spacing: 1px;
+        box-shadow: 0 3px 10px rgba(0,0,0,0.2); }
+    .container {
+        display: flex;
+        gap: 20px;
+        padding: 20px; }
+    .sidebar {
+        background: #ffe0b2;
+        width: 260px;
+        padding: 15px;
+        float: left;
+        border-radius: 12px;
+        box-shadow: 0 0 10px rgba(0,0,0,0.1);}
+    .sidebar h2 {
+        color: #d84315;
+        margin-bottom: 10px;}
+    .sidebar ul li {
+        margin-bottom: 8px;
+        font-size: 1.1rem;}
+    .content {
+        flex: 1;
+        background: #ffffff;
+        padding: 20px;
+        min-height: 300px;
+        border-radius: 12px;
+        box-shadow: 0 0 10px rgba(0,0,0,0.1); }
+    .content h2 {
+        color: #e64a19;
+        margin-bottom: 10px; }
+    .clear {
+        clear: both; }
+    @media (max-width: 599px) {
+        .container {
+            display: block;}
+        .sidebar {
+            width: 100%;
+            float: none;
+            margin-bottom: 20px;}
+        .content {
+            width: 100%;} }
+    @media (min-width: 600px) and (max-width: 900px) {
+        .container {
+            display: block; }
+        .sidebar {
+            width: 45%;
+            float: left;
+        }
+        .content {
+            width: 50%;
+            float: right;
+        }}
+    @media (min-width: 901px) {
+        .container {
+            display: flex;
+        }
+        .sidebar {
+            width: 260px;
+            float: none;
+        }
+        .content {
+            flex: 1;
+        }
+    }
+</style></head><body>
+<header>🍕 Food Menu — Responsive Layout</header>
+<div class="container">
+    <div class="sidebar">
+        <h2>Food Categories</h2><ul>
+            <li>🍔 Burgers</li>
+            <li>🍕 Pizza</li>
+            <li>🥗 Salads</li>
+            <li>🍝 Pasta</li>
+            <li>🍰 Desserts</li>
+            <li>🥤 Drinks</li>
+        </ul></div><div class="content">
+        <h2>Popular Dishes</h2>
+        <p>Browse our most ordered and delicious items:</p><ul>
+            <li>🔥 Spicy Chicken Burger</li>
+            <li>🧀 Cheese Burst Pizza</li>
+            <li>🍝 White Sauce Pasta</li>
+            <li>🍨 Vanilla Ice Cream</li></ul><br>
+        <p><strong>Responsive Behaviour:</strong></p><ul>
+            <li> Stacked layout (mobile menu style)</li>
+            <li> Float-based two-column layout</li>
+            <li> Flexbox restaurant-style layout</li>
+        </ul></div><div class="clear"></div></div>
+</body>
+</html>

@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Responsive Layout Example</title>
+
+  <!-- Combined Internal CSS -->
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      line-height: 1.6;
+    }
+
+    header {
+      background: #0066cc;
+      color: white;
+      text-align: center;
+      padding: 1rem;
+    }
+
+    nav {
+      background: #004080;
+    }
+
+    nav ul {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      text-align: center;
+    }
+
+    nav ul li {
+      display: inline-block;
+      margin: 0.5rem;
+    }
+
+    nav ul li a {
+      color: white;
+      text-decoration: none;
+      font-size: 1rem;
+    }
+
+    .intro {
+      padding: 1rem;
+      text-align: center;
+    }
+
+    .content {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 1rem;
+    }
+
+    .content .text,
+    .content .image {
+      width: 100%;
+      margin-bottom: 1rem;
+    }
+
+    .content img {
+      max-width: 100%;
+      height: auto;
+      border-radius: 10px;
+    }
+
+    /* Tablet View */
+    @media (min-width: 600px) {
+      nav ul li {
+        margin: 0 1rem;
+      }
+
+      .content {
+        flex-direction: row;
+        justify-content: space-around;
+      }
+
+      .content .text,
+      .content .image {
+        width: 45%;
+        margin-bottom: 0;
+      }
+    }
+
+    /* Desktop View */
+    @media (min-width: 992px) {
+      header {
+        text-align: left;
+        padding: 1rem 3rem;
+      }
+
+      nav ul {
+        text-align: right;
+        padding-right: 3rem;
+      }
+
+      main {
+        max-width: 1100px;
+        margin: auto;
+      }
+
+      .intro p {
+        font-size: 1.2rem;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <header>
+    <h1>My Travel Blog</h1>
+  </header>
+
+  <nav>
+    <ul>
+      <li><a href="#">Home</a></li>
+      <li><a href="#">Places</a></li>
+      <li><a href="#">Gallery</a></li>
+      <li><a href="#">Contact</a></li>
+    </ul>
+  </nav>
+
+  <main>
+    <section class="intro">
+      <h2>Welcome Travelers!</h2>
+      <p>
+        This is my small travel blog where I share photos and experiences
+        from my journeys. This page is responsive and works on all devices.
+      </p>
+    </section>
+
+    <section class="content">
+      <div class="text">
+        <h3>Exploring Mountains</h3>
+        <p>
+          I love hiking and exploring nature. The mountains are my favorite
+          place to relax and enjoy beautiful views.
+        </p>
+      </div>
+
+      <div class="image">
+        <img src="https://picsum.photos/400/250" alt="Mountains">
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <p style="text-align:center;">© 2025 My Travel Blog | All Rights Reserved</p>
+  </footer>
+
+</body>
+</html>

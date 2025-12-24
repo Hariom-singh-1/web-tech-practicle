@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>CSS Styling Methods</title>
+
+  <!-- Internal CSS (Question 1 & 2 combined) -->
+  <style>
+    /* Internal CSS for heading */
+    h2 {
+      color: darkblue;
+      text-align: center;
+      text-decoration: underline;
+    }
+
+    /* Internal CSS for paragraph */
+    p {
+      font-family: Arial, sans-serif;
+      line-height: 1.5;
+      color: #444;
+      text-align: center;
+    }
+
+    /* CSS from Question 2 (external-box) */
+    .external-box {
+      background-color: lightgreen;
+      color: darkgreen;
+      border: 2px solid darkgreen;
+      width: 60%;
+      margin: 20px auto;
+      padding: 15px;
+      text-align: center;
+      border-radius: 10px;
+      font-weight: bold;
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- Inline CSS -->
+  <h1 style="color: crimson; text-align: center;">
+    Inline, Internal, and External CSS Example
+  </h1>
+
+  <!-- Internal CSS applied -->
+  <h2>This heading uses internal CSS</h2>
+
+  <p>
+    This paragraph is styled using internal CSS written inside the
+    &lt;style&gt; tag. Internal CSS is applied to a single HTML page.
+  </p>
+
+  <!-- External-box styled content -->
+  <div class="external-box">
+    This box demonstrates CSS from Question 2.
+    It is styled using class selector and combined into the same HTML file.
+  </div>
+
+</body>
+</html>

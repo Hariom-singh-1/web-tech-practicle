@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Grocery Product Layout using Table </title>
+</head>
+<body>
+  <h1 align="center">Grocery Store Product Layout</h1>
+  <p align="center">This table displays grocery product details, using merged cells, alignment, and caption — without CSS.</p>
+  <table border="1" cellpadding="8" cellspacing="0" width="100%">
+    <caption><strong>Grocery Product List and Summary</strong></caption>
+    <tr>
+      <th colspan="5" align="center">Fresh Mart Grocery Store</th>
+    </tr><tr>
+      <th align="center">Product ID</th><th align="center">Product Name</th>
+      <th align="center">Category</th><th align="center">Quantity</th>
+      <th align="center">Price (₹)</th></tr><tr><td align="center">A101</td>
+      <td align="left">Apple</td><td align="center" rowspan="3">Fruits</td>
+      <td align="right">3 kg</td><td align="right">340</td></tr><tr>
+      <td align="center">A102</td><td align="left">Banana</td><td align="right">2 dozen</td>
+      <td align="right">100</td></tr><tr><td align="center">A103</td>
+      <td align="left">Mango</td><td align="right">5 kg</td><td align="right">550</td></tr><tr>
+      <td align="center">B201</td><td align="left">Tomato</td>
+      <td align="center" rowspan="3">Vegetables</td><td align="right">3 kg</td><td align="right">100</td></tr><tr><td align="center">B202</td><td align="left">Potato</td><td align="right">6 kg</td><td align="right">150</td></tr><tr><td align="center">B203</td><td align="left">Onion</td>
+      <td align="right">5 kg</td><td align="right">220</td></tr><tr><td align="center">C301</td>
+      <td align="left">Milk</td><td align="center" rowspan="2">Dairy</td><td align="right">5 L</td>
+      <td align="right">420</td></tr><tr><td align="center">C302</td><td align="left">Butter</td>
+      <td align="right">1 kg</td><td align="right">450</td></tr><tr>
+      <td colspan="4" align="right"><strong>Total Amount</strong></td><td align="center"><strong>₹ 2,330</strong></td></tr></table><h2 align="center">Stock Availability Table</h2>
+  <table border="1" cellpadding="8" cellspacing="0" width="100%"><caption><strong>Warehouse Stock Summary</strong></caption><tr><th>Item</th><th colspan="2" align="center">Stock Details</th>
+      <th align="center">Remarks</th></tr><tr><td align="left">Apples</td><td align="center">In Stock</td><td align="center">500 kg</td><td align="center" rowspan="2">Available for Sale</td></tr><tr>
+      <td align="left">Bananas</td><td align="center">In Stock</td>
+      <td align="center">200 dozen</td>
+    </tr>
+    <tr>
+      <td align="left">Tomatoes</td>
+      <td align="center">Low Stock</td>
+      <td align="center">50 kg</td>
+      <td align="center" rowspan="2">Restock Required</td>
+    </tr>
+    <tr>
+      <td align="left">Onions</td>
+      <td align="center">Low Stock</td>
+      <td align="center">100 kg</td>
+    </tr>
+  </table>
+  <p align="center"><small>© 2025 Fresh Mart Grocery • All Rights Reserved</small></p>
+</body>
+</html>
